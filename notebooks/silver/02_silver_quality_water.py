@@ -5,7 +5,7 @@ from utils.helpers import rename_columns
 
 @dlt.table(
     name="silver_analyses",
-    comment="Données d'analyses nettoyées et standardisées."
+    comment="Table contenant les données d'analyses nettoyées et standardisées."
 )
 def silver_analyses():
     """
@@ -16,7 +16,7 @@ def silver_analyses():
     """
     df = dlt.read("bronze_analyses")
 
-    # Cast de quelques colonnes typiques (adaptable selon le schéma réel)
+    # Cast
     if "resultat_numerique" in df.columns:
         df = df.withColumn("resultat_numerique", col("resultat_numerique").cast("double"))
 

@@ -4,7 +4,7 @@ from pyspark.sql.functions import avg, min, max, count
 
 @dlt.table(
     name="gold_qualite_commune_parametre",
-    comment="Indicateurs de qualité de l'eau par commune et paramètre."
+    comment="Table contenant les indicateurs de qualité de l'eau par commune et paramètre."
 )
 def gold_qualite_commune_parametre():
     """

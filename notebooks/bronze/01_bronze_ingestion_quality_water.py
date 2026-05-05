@@ -9,7 +9,7 @@ DEPARTEMENT = "35"
 
 @dlt.table(
     name="bronze_analyses",
-    comment="Données brutes des analyses de qualité de l'eau (Hub'Eau)."
+    comment=" Table contennat les données brutes des analyses de qualité de l'eau (Hub'Eau)."
 )
 def bronze_analyses():
     """
