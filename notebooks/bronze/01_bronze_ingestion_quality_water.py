@@ -29,7 +29,7 @@ except Exception:
     dlt = MockDLT()
 # -----------------------------------
 
-import dlt
+
 from pyspark.sql.functions import col, year
 from utils.api import call_hubeau
 import yaml
