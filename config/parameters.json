@@ -1,5 +1,0 @@
-{
-  "annees": [2023, 2024, 2025],
-  "departement": "35",
-  "api_base_url": "https://hubeau.eaufrance.fr/api/v1/qualite_eau_potable"
-}

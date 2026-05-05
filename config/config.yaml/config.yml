@@ -1,0 +1,23 @@
+ingestion:
+  annees: [2023, 2022, 2023]
+  departement: "35"
+  api_base_url: "https://hubeau.eaufrance.fr/api/v1/qualite_eau_potable"
+
+storage:
+  mode: "local"   # "local" ou "azure"
+
+  local:
+    bronze_path: "dbfs:/mnt/quality-water/bronze"
+    silver_path: "dbfs:/mnt/quality-water/silver"
+    gold_path: "dbfs:/mnt/quality-water/gold"
+    logs_path: "dbfs:/mnt/quality-water/logs"
+
+  azure:
+    account_name: "stqualitywaterdlt"
+    container: "quality-water"
+    mount_point: "/mnt/quality-water"
+
+tables:
+  bronze_analyses: "bronze_analyses"
+  silver_analyses: "silver_analyses"
+  gold_commune_parametre: "gold_qualite_commune_parametre"
