@@ -1,3 +1,34 @@
+# --- MOCK DLT FOR CI ENVIRONMENT ---
+try:
+    import dlt
+    # Vérifie que les attributs existent (cas GitHub Actions)
+    _ = dlt.table
+    _ = dlt.view
+except Exception:
+    class MockDLT:
+        def table(self, *args, **kwargs):
+            def decorator(func):
+                return func
+            return decorator
+
+        def view(self, *args, **kwargs):
+            def decorator(func):
+                return func
+            return decorator
+
+        def expect(self, *args, **kwargs):
+            def decorator(func):
+                return func
+            return decorator
+
+        def expect_or_drop(self, *args, **kwargs):
+            def decorator(func):
+                return func
+            return decorator
+
+    dlt = MockDLT()
+# -----------------------------------
+
 import yaml
 
 with open("config/config.yaml", "r") as f:
