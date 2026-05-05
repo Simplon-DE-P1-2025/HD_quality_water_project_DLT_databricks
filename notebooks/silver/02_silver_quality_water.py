@@ -1,7 +1,25 @@
+
 import dlt
 from pyspark.sql.functions import col, to_timestamp
 from utils.helpers import rename_columns
 import yaml
+# --- MOCK DLT FOR CI ENVIRONMENT ---
+try:
+    import dlt
+except ImportError:
+    class MockDLT:
+        def table(self, *args, **kwargs):
+            def decorator(func):
+                return func
+            return decorator
+
+        def view(self, *args, **kwargs):
+            def decorator(func):
+                return func
+            return decorator
+
+    dlt = MockDLT()
+# -----------------------------------
 
 # --- Chargement du fichier YAML ---
 with open("config/config.yaml", "r") as f:
