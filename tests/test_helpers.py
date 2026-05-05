@@ -8,7 +8,7 @@ Ce test vérifie que :
     le DataFrame Spark reste valide
     '''
 
-    from utils.helpers import rename_columns
+from utils.helpers import rename_columns
 from pyspark.sql import SparkSession
 
 spark = SparkSession.builder.getOrCreate()
@@ -24,4 +24,3 @@ def test_rename_columns():
 
     assert "new_col" in df2.columns
     assert "old_col" not in df2.columns
-
