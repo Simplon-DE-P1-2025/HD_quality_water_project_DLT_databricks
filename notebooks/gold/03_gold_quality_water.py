@@ -1,6 +1,16 @@
-import dlt
-from pyspark.sql.functions import avg, min, max, count
+import yaml
 
+with open("config/config.yaml", "r") as f:
+    cfg = yaml.safe_load(f)
+
+# Ingestion
+ANNEES = cfg["ingestion"]["annees"]
+DEPARTEMENT = cfg["ingestion"]["departement"]
+API_BASE_URL = cfg["ingestion"]["api_base_url"]
+
+# Storage
+STORAGE_MODE = cfg["storage"]["mode"]
+BRONZE_PATH = cfg["storage"][STORAGE_MODE]["bronze_path"]
 
 @dlt.table(
     name="gold_qualite_commune_parametre",

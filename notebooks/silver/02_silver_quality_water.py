@@ -1,6 +1,20 @@
 import dlt
 from pyspark.sql.functions import col, to_timestamp
 from utils.helpers import rename_columns
+import yaml
+
+# --- Chargement du fichier YAML ---
+with open("config/config.yaml", "r") as f:
+    cfg = yaml.safe_load(f)
+
+# Ingestion (pas utilisé directement ici, mais chargé pour cohérence)
+ANNEES = cfg["ingestion"]["annees"]
+DEPARTEMENT = cfg["ingestion"]["departement"]
+API_BASE_URL = cfg["ingestion"]["api_base_url"]
+
+# Storage (pas utilisé ici, mais cohérent avec Bronze/Gold)
+STORAGE_MODE = cfg["storage"]["mode"]
+BRONZE_PATH = cfg["storage"][STORAGE_MODE]["bronze_path"]
 
 
 @dlt.table(
@@ -16,15 +30,17 @@ def silver_analyses():
     """
     df = dlt.read("bronze_analyses")
 
-    # Cast
+    # Cast des types
     if "resultat_numerique" in df.columns:
         df = df.withColumn("resultat_numerique", col("resultat_numerique").cast("double"))
 
     if "date_prelevement" in df.columns:
         df = df.withColumn("date_prelevement", to_timestamp("date_prelevement"))
 
+    # Suppression des doublons
     df = df.dropDuplicates()
 
+    # Normalisation des noms de colonnes
     mapping = {}
     if "code_departement" in df.columns:
         mapping["code_departement"] = "departement"

@@ -1,15 +1,26 @@
 import dlt
 from pyspark.sql.functions import col, year
 from utils.api import call_hubeau
+import yaml
 
-# Paramètres simples
-ANNEES = [2023, 2024, 2025]
-DEPARTEMENT = "35"
+# --- Chargement du fichier YAML ---
+with open("config/config.yaml", "r") as f:
+    cfg = yaml.safe_load(f)
+
+# Ingestion
+ANNEES = cfg["ingestion"]["annees"]
+DEPARTEMENT = cfg["ingestion"]["departement"]
+API_BASE_URL = cfg["ingestion"]["api_base_url"]
+
+# Storage
+STORAGE_MODE = cfg["storage"]["mode"]
+BRONZE_PATH = cfg["storage"][STORAGE_MODE]["bronze_path"]
 
 
 @dlt.table(
     name="bronze_analyses",
-    comment=" Table contennat les données brutes des analyses de qualité de l'eau (Hub'Eau)."
+    comment="Table contenant les données brutes des analyses de qualité de l'eau (Hub'Eau).",
+    path=BRONZE_PATH
 )
 def bronze_analyses():
     """
@@ -25,13 +36,14 @@ def bronze_analyses():
             "date_fin": f"{annee}-12-31",
             "size": 5000
         }
-        data = call_hubeau("analyses", params)
+        data = call_hubeau("analyses", params, base_url=API_BASE_URL)
         all_data.extend(data)
 
     if not all_data:
         return spark.createDataFrame([], schema="code_departement string")
 
     df = spark.createDataFrame(all_data)
+
     if "date_prelevement" in df.columns:
         df = df.withColumn("annee", year(col("date_prelevement")))
     else:
