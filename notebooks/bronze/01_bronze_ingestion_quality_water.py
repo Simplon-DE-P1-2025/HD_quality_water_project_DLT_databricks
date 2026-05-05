@@ -2,8 +2,8 @@ import dlt
 from pyspark.sql.functions import col, year
 from utils.api import call_hubeau
 
-# Paramètres simples (tu pourras les externaliser plus tard si tu veux)
-ANNEES = [2021, 2022, 2023]
+# Paramètres simples
+ANNEES = [2023, 2024, 2025]
 DEPARTEMENT = "35"
 
 
