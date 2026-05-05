@@ -1,3 +1,17 @@
+# --- MOCK SPARK FOR CI ENVIRONMENT ---
+try:
+    spark  # Vérifie si Spark existe (Databricks)
+except NameError:
+    class MockSpark:
+        def read(self):
+            raise RuntimeError("Spark is not available in CI environment")
+
+        def sql(self, *args, **kwargs):
+            raise RuntimeError("Spark is not available in CI environment")
+
+    spark = MockSpark()
+# -------------------------------------
+
 from pyspark.sql.functions import col
 
 # Lecture de la table Gold
@@ -44,4 +58,3 @@ if {"code_parametre", "valeur_moyenne"} <= set(df_gold.columns):
         .orderBy("code_parametre")
     )
     display(df_parametre)
-
