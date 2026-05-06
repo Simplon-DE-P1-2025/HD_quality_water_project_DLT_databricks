@@ -1,34 +1,3 @@
-# --- MOCK SPARK FOR CI ENVIRONMENT ---
-try:
-    spark  # Vérifie si Spark existe (Databricks)
-except NameError:
-    class MockDataFrame:
-        def __init__(self):
-            self.columns = ["annee", "code_parametre", "valeur_moyenne", "departement", "commune"]
-
-        def limit(self, n):
-            return self
-
-        def filter(self, *args, **kwargs):
-            return self
-
-        def groupBy(self, *args, **kwargs):
-            return self
-
-        def avg(self, *args, **kwargs):
-            return self
-
-        def orderBy(self, *args, **kwargs):
-            return self
-
-    class MockSpark:
-        def table(self, name):
-            print(f"[MOCK] spark.table('{name}') called")
-            return MockDataFrame()
-
-    spark = MockSpark()
-
-
 from pyspark.sql.functions import col
 
 # Lecture de la table Gold
