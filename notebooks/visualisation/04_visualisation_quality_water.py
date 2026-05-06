@@ -1,50 +1,32 @@
-# --- MOCK DLT FOR CI ENVIRONMENT ---
-try:
-    import dlt
-    # Vérifie que les attributs existent (cas GitHub Actions)
-    _ = dlt.table
-    _ = dlt.view
-except Exception:
-    class MockDLT:
-        def table(self, *args, **kwargs):
-            def decorator(func):
-                return func
-            return decorator
-
-        def view(self, *args, **kwargs):
-            def decorator(func):
-                return func
-            return decorator
-
-        def expect(self, *args, **kwargs):
-            def decorator(func):
-                return func
-            return decorator
-
-        def expect_or_drop(self, *args, **kwargs):
-            def decorator(func):
-                return func
-            return decorator
-
-    dlt = MockDLT()
-# -----------------------------------
-
 # --- MOCK SPARK FOR CI ENVIRONMENT ---
 try:
     spark  # Vérifie si Spark existe (Databricks)
 except NameError:
+    class MockDataFrame:
+        def __init__(self):
+            self.columns = ["annee", "code_parametre", "valeur_moyenne", "departement", "commune"]
+
+        def limit(self, n):
+            return self
+
+        def filter(self, *args, **kwargs):
+            return self
+
+        def groupBy(self, *args, **kwargs):
+            return self
+
+        def avg(self, *args, **kwargs):
+            return self
+
+        def orderBy(self, *args, **kwargs):
+            return self
+
     class MockSpark:
-        def read(self):
-            raise RuntimeError("Spark is not available in CI environment")
-
-        def sql(self, *args, **kwargs):
-            raise RuntimeError("Spark is not available in CI environment")
-
-        def table(self, *args, **kwargs):
-            raise RuntimeError("Spark is not available in CI environment")
+        def table(self, name):
+            print(f"[MOCK] spark.table('{name}') called")
+            return MockDataFrame()
 
     spark = MockSpark()
-# -------------------------------------
 
 
 from pyspark.sql.functions import col
