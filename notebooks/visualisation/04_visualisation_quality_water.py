@@ -1,3 +1,34 @@
+# --- MOCK DLT FOR CI ENVIRONMENT ---
+try:
+    import dlt
+    # Vérifie que les attributs existent (cas GitHub Actions)
+    _ = dlt.table
+    _ = dlt.view
+except Exception:
+    class MockDLT:
+        def table(self, *args, **kwargs):
+            def decorator(func):
+                return func
+            return decorator
+
+        def view(self, *args, **kwargs):
+            def decorator(func):
+                return func
+            return decorator
+
+        def expect(self, *args, **kwargs):
+            def decorator(func):
+                return func
+            return decorator
+
+        def expect_or_drop(self, *args, **kwargs):
+            def decorator(func):
+                return func
+            return decorator
+
+    dlt = MockDLT()
+# -----------------------------------
+
 # --- MOCK SPARK FOR CI ENVIRONMENT ---
 try:
     spark  # Vérifie si Spark existe (Databricks)
@@ -9,8 +40,12 @@ except NameError:
         def sql(self, *args, **kwargs):
             raise RuntimeError("Spark is not available in CI environment")
 
+        def table(self, *args, **kwargs):
+            raise RuntimeError("Spark is not available in CI environment")
+
     spark = MockSpark()
 # -------------------------------------
+
 
 from pyspark.sql.functions import col
 
