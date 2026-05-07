@@ -1,7 +1,8 @@
 # HD_quality_water_project_DLT_databricks
-Pipeline Delta Live Tables Databricks  pour l’ingestion, le nettoyage et l’analyse des données de qualité de l’eau issues des API Hub’Eau (architecture Médaillon Bronze/Silver/Gold visualisations analytiques).).
-Parfait — on va verrouiller **trois choses essentielles** pour un projet Data Engineering propre et crédible :
+Pipeline Delta Live Tables Databricks  pour l’ingestion, le nettoyage et l’analyse des données de qualité de l’eau issues des API Hub’Eau (architecture Médaillon Bronze/Silver/Gold visualisations analytiques)
 
+Le brief mentionne “DLT (Data Load Tool)” comme un outil d’ingestion automatisée.
+Dans ce projet, j’ai choisi d’utiliser Delta Live Tables (DLT), la technologie native Databricks, car elle correspond parfaitement à l’objectif d’ingestion automatisée et garantit un pipeline robuste, traçable et maintenable.
 
 ##  Objectifs
 - Ingestion des données Hub’Eau (Bronze)
