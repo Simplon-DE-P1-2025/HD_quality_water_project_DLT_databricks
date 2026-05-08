@@ -1,6 +1,0 @@
-pyspark
-dlt
-pyyaml
-requests
-flake8
-pytest
